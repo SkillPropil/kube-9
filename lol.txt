@@ -1,0 +1,45 @@
+[root@skillpropilserv-01 kube-9-local]# openssl x509 -req -in skillpropil.csr -CA /var/snap/microk8s/7232/certs/ca.crt -CAkey /var/snap/microk8s/7232/certs/ca.key -CAcreateserial -out skillpropil.crt -days 500
+
+openssl req -new -key skillpropil.key -out skillpropil.csr -subj "/CN=skillpropil/O=pyanitsa"
+
+root@skillpropilserv-01 kube-9-local]# kubectl config set-credentials skillpropil --client-certificate=cert/skillpropil.crt --client-key=cert/skillpropil.key
+User "skillpropil" set
+
+
+
+[root@skillpropilserv-01 kube-9-local]# kubectl config view
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://127.0.0.1:16443
+  name: microk8s-cluster
+contexts:
+- context:
+    cluster: microk8s-cluster
+    user: skillpropil
+  name: awertoss-context
+- context:
+    cluster: microk8s-cluster
+    user: admin
+  name: microk8s
+- context:
+    cluster: microk8s-cluster
+    user: skillpropil
+  name: skillpropil-context
+current-context: microk8s
+kind: Config
+preferences: {}
+users:
+- name: admin
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+- name: awertoss
+  user:
+    client-certificate: /root/kube-9-local/cert/skillpropil.crt
+    client-key: /root/kube-9-local/cert/skillpropil.key
+- name: skillpropil
+  user:
+    client-certificate: /root/kube-9-local/cert/skillpropil.crt
+    client-key: /root/kube-9-local/cert/skillpropil.key
